@@ -4,20 +4,15 @@ import { styled } from '@mui/material/styles';
 import { Box, Stack, AppBar, Toolbar } from '@mui/material';
 // hooks
 import useOffSetTop from '../../../hooks/useOffSetTop';
-import useResponsive from '../../../hooks/useResponsive';
 // utils
 import cssStyles from '../../../utils/cssStyles';
 // config
 import { HEADER, NAVBAR } from '../../../config';
 // components
 import Logo from '../../../components/Logo';
-import Iconify from '../../../components/Iconify';
-import { IconButtonAnimate } from '../../../components/animate';
 //
-import Searchbar from './Searchbar';
 import AccountPopover from './AccountPopover';
 import LanguagePopover from './LanguagePopover';
-import ContactsPopover from './ContactsPopover';
 import NotificationsPopover from './NotificationsPopover';
 
 // ----------------------------------------------------------------------
@@ -52,15 +47,12 @@ const RootStyle = styled(AppBar, {
 // ----------------------------------------------------------------------
 
 DashboardHeader.propTypes = {
-  onOpenSidebar: PropTypes.func,
   isCollapse: PropTypes.bool,
   verticalLayout: PropTypes.bool,
 };
 
-export default function DashboardHeader({ onOpenSidebar, isCollapse = false, verticalLayout = false }) {
+export default function DashboardHeader({ isCollapse = false, verticalLayout = false }) {
   const isOffset = useOffSetTop(HEADER.DASHBOARD_DESKTOP_HEIGHT) && !verticalLayout;
-
-  const isDesktop = useResponsive('up', 'lg');
 
   return (
     <RootStyle isCollapse={isCollapse} isOffset={isOffset} verticalLayout={verticalLayout}>
@@ -70,15 +62,15 @@ export default function DashboardHeader({ onOpenSidebar, isCollapse = false, ver
           px: { lg: 5 },
         }}
       >
-        {isDesktop && verticalLayout && <Logo sx={{ mr: 2.5 }} />}
+        {/* {isDesktop && verticalLayout && <Logo sx={{ mr: 2.5 }} />} */}
+        <Logo sx={{ mr: 2.5 }} />
 
-        {!isDesktop && (
+        {/* {!isDesktop && (
           <IconButtonAnimate onClick={onOpenSidebar} sx={{ mr: 1, color: 'text.primary' }}>
             <Iconify icon="eva:menu-2-fill" />
           </IconButtonAnimate>
-        )}
+        )} */}
 
-        <Searchbar />
         <Box sx={{ flexGrow: 1 }} />
 
         <Stack direction="row" alignItems="center" spacing={{ xs: 0.5, sm: 1.5 }}>

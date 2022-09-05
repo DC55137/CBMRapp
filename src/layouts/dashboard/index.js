@@ -4,8 +4,6 @@ import { Outlet } from 'react-router-dom';
 import { styled } from '@mui/material/styles';
 import { Box } from '@mui/material';
 // hooks
-import useSettings from '../../hooks/useSettings';
-import useResponsive from '../../hooks/useResponsive';
 import useCollapseDrawer from '../../hooks/useCollapseDrawer';
 // config
 import { HEADER, NAVBAR } from '../../config';
@@ -42,13 +40,13 @@ const MainStyle = styled('main', {
 export default function DashboardLayout() {
   const { collapseClick, isCollapse } = useCollapseDrawer();
 
-  const { themeLayout } = useSettings();
-
-  const isDesktop = useResponsive('up', 'lg');
+  const isDesktop = true;
+  // useResponsive('up', 'lg');
 
   const [open, setOpen] = useState(false);
 
-  const verticalLayout = themeLayout === 'vertical';
+  const verticalLayout = true;
+  // themeLayout === 'vertical';
 
   if (verticalLayout) {
     return (

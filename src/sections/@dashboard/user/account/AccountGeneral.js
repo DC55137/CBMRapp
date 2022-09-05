@@ -70,7 +70,8 @@ export default function AccountGeneral({ job }) {
   };
 
   const handleDeleteJob = () => {
-    if (window.confirm('are you sure you want to delete?')) {
+    // prettier-ignore
+    if (window.confirm('are you sure you want to delete?')) { // eslint-disable-line no-alert
       deleteDocumentIdString(id).then(() => {
         navigate(PATH_DASHBOARD.job.root);
       });

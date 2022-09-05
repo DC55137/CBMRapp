@@ -12,7 +12,7 @@ import useSettings from '../../hooks/useSettings';
 // routes
 import { PATH_DASHBOARD } from '../../routes/paths';
 // _mock_
-import { _userPayment, _userAddressBook, _userInvoices, _userAbout } from '../../_mock';
+import { _userPayment, _userAddressBook, _userInvoices } from '../../_mock';
 // components
 import Page from '../../components/Page';
 import Iconify from '../../components/Iconify';
@@ -20,15 +20,7 @@ import HeaderBreadcrumbs from '../../components/HeaderBreadcrumbs';
 import { AccountGeneral } from '../../sections/@dashboard/user/account';
 
 // sections
-import {
-  JobGeneral,
-  JobBilling,
-  JobSocialLinks,
-  JobNotifications,
-  JobImages,
-  JobQuote,
-  JobOrigin,
-} from '../../sections/@dashboard/job/account';
+import { JobBilling, JobImages, JobQuote, JobOrigin } from '../../sections/@dashboard/job/account';
 
 // ----------------------------------------------------------------------
 
