@@ -1,10 +1,8 @@
 import { createSlice } from '@reduxjs/toolkit';
 // DB Firesbase database
-import { getDatabase, ref, set, collection, getDocs, addDoc, doc, updateDoc, deleteDoc } from 'firebase/firestore';
+import { collection, getDocs, addDoc, doc, updateDoc, deleteDoc } from 'firebase/firestore';
 // Firebase
 import { DB } from '../../contexts/FirebaseContext';
-// utils
-import axios from '../../utils/axios';
 //
 import { dispatch } from '../store';
 // ----------------------------------------------------------------------
@@ -180,7 +178,7 @@ async function viewDB() {
   const valuesDB = [];
   const DBvalues = collection(DB, 'events');
   const quicksnapshot = await getDocs(DBvalues);
-  quicksnapshot.forEach((doc, index) => {
+  quicksnapshot.forEach((doc) => {
     // valuesDB = {...valuesDB, {doc.data(), id: doc.id}};
     valuesDB.push({ id: doc.id, ...doc.data() });
   });

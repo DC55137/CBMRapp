@@ -1,23 +1,17 @@
 // Firebase
 import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage';
-// MongoDB
-import * as Realm from 'realm-web';
 // React
 import { useCallback, useState, useEffect } from 'react';
 import { useSnackbar } from 'notistack';
 import PropTypes from 'prop-types';
 // @mui
-import { Card, Container, Grid, Typography, Button } from '@mui/material';
-import ImageList from '@mui/material/ImageList';
-import ImageListItem from '@mui/material/ImageListItem';
+import { Card, Container, Grid, Button } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 import Delete from '@mui/icons-material/Delete';
-import ImageListItemBar from '@mui/material/ImageListItemBar';
-import IconButton from '@mui/material/IconButton';
 // form
 import { useForm } from 'react-hook-form';
 // components
-import { RHFSwitch, RHFUploadAvatar, FormProvider } from '../../../../components/hook-form';
+import { RHFUploadAvatar, FormProvider } from '../../../../components/hook-form';
 // MongoDB Realm
 import { updateJobWithObId } from '../../../../utils/realm';
 
@@ -105,7 +99,7 @@ export default function JobQuote({ job }) {
         });
       }
     },
-    [setValue, storageRef]
+    [setValue, storageRef, job]
   );
 
   return (
@@ -125,7 +119,7 @@ export default function JobQuote({ job }) {
             </Button>
           </Grid>
         </Grid>
-        <LoadingButton type="submit" variant="contained">
+        <LoadingButton type="submit" variant="contained" loading={isSubmitting}>
           Save Changes
         </LoadingButton>
       </FormProvider>

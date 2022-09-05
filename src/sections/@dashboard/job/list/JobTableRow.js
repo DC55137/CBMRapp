@@ -2,24 +2,11 @@ import PropTypes from 'prop-types';
 import { useState } from 'react';
 import { useSnackbar } from 'notistack';
 // @mui
-import {
-  Checkbox,
-  TableRow,
-  TableCell,
-  Typography,
-  Link,
-  MenuItem,
-  IconButton,
-  Container,
-  Button,
-} from '@mui/material';
-import ImageList from '@mui/material/ImageList';
-import ImageListItem from '@mui/material/ImageListItem';
+import { Checkbox, TableRow, TableCell, Typography, IconButton, Button } from '@mui/material';
 // components
 
 import { fDateTimeSuffix } from '../../../../utils/formatTime';
 import Iconify from '../../../../components/Iconify';
-import { TableMoreMenu } from '../../../../components/table';
 import { cancelJob, drawingMeasureUpQuote, leadMessage, onlineMeasureUpQuote } from './messages';
 import { emailMessage } from './emailMessage';
 
@@ -29,12 +16,9 @@ JobTableRow.propTypes = {
   row: PropTypes.object.isRequired,
   selected: PropTypes.bool,
   onSelectRow: PropTypes.func,
-  onViewRow: PropTypes.func,
-  onEditRow: PropTypes.func,
-  onDeleteRow: PropTypes.func,
 };
 
-export default function JobTableRow({ row, selected, onSelectRow, onViewRow, onEditRow, onDeleteRow }) {
+export default function JobTableRow({ row, selected, onSelectRow }) {
   const { enqueueSnackbar } = useSnackbar();
   const { name, address, mobile, email, number, stage, date, images, notes, _id } = row;
   const nameNoSpace = name.replace(/\s+/g, '');
@@ -58,15 +42,6 @@ ${mobile}`;
   const [showImages, setShowImages] = useState(false);
   const [showNotes, setShowNotes] = useState(false);
   const [showMessages, setShowMessages] = useState(false);
-  const [openMenu, setOpenMenuActions] = useState(null);
-
-  const handleOpenMenu = (event) => {
-    setOpenMenuActions(event.currentTarget);
-  };
-
-  const handleCloseMenu = () => {
-    setOpenMenuActions(null);
-  };
 
   const handleCopyValue = (value) => {
     navigator.clipboard.writeText(value);
@@ -77,7 +52,7 @@ ${mobile}`;
     enqueueSnackbar(`Copied email`);
   };
 
-  const handleCopyFolder = (value) => {
+  const handleCopyFolder = () => {
     navigator.clipboard.writeText(jobFolder);
     enqueueSnackbar(`Copied "${jobFolder}"`);
   };

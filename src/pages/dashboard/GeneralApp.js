@@ -1,9 +1,6 @@
 // React
 import { useEffect, useState } from 'react';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
-// MongoDB
-import * as Realm from 'realm-web';
-
 // @mui
 import {
   Box,
@@ -121,7 +118,8 @@ export default function InvoiceList() {
   };
 
   const handleDeleteRows = (selected) => {
-    if (window.confirm('are you sure you want to delete?')) {
+    // prettier-ignore
+    if (window.confirm('are you sure you want to delete?')) { // eslint-disable-line no-alert
       const notDeletedRows = jobs.filter((row) => !selected.includes(row._id));
       const deletedRows = jobs.filter((row) => selected.includes(row._id));
       setSelected([]);
@@ -139,7 +137,8 @@ export default function InvoiceList() {
   };
 
   const handleUpdateRow = (location) => {
-    if (window.confirm(`are you sure you want to move to ${location}?`)) {
+    // prettier-ignore
+    if (window.confirm(`are you sure you want to move to ${location}?`)) {// eslint-disable-line no-alert
       const sendRows = jobs.filter((row) => selected.includes(row._id));
       setSelected([]);
       if (page * rowsPerPage >= dataFiltered.length) {

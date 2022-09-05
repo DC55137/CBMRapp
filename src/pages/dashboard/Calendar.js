@@ -4,14 +4,10 @@ import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import timelinePlugin from '@fullcalendar/timeline';
 import interactionPlugin from '@fullcalendar/interaction';
-// DB Firesbase database
-import { getDatabase, ref, set, collection, getDocs, addDoc, doc } from 'firebase/firestore';
-//
+
 import { useState, useRef, useEffect } from 'react';
 // @mui
 import { Card, Button, Container, DialogTitle } from '@mui/material';
-// Firebase
-import { DB } from '../../contexts/FirebaseContext';
 // redux
 import { useDispatch, useSelector } from '../../redux/store';
 import { getEvents, openModal, closeModal, updateEvent, selectEvent, selectRange } from '../../redux/slices/calendar';
