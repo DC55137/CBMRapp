@@ -20,7 +20,7 @@ JobTableRow.propTypes = {
 
 export default function JobTableRow({ row, selected, onSelectRow }) {
   const { enqueueSnackbar } = useSnackbar();
-  const { name, address, mobile, email, number, stage, date, images, notes, _id } = row;
+  const { name, address, mobile, email, number, stage, date, images, notes, _id, origin, toAction } = row;
   const nameNoSpace = name.replace(/\s+/g, '');
   const location = `/Users/cbroofing/Library/Mobile Documents/com~apple~CloudDocs/Documents/CBRoofing/Jobs/all/${number}-${nameNoSpace}`;
   const jobFolder = `${number}-${nameNoSpace}`;
@@ -103,6 +103,14 @@ ${mobile}`;
           <IconButton onClick={handleShowMessages}>
             <Iconify icon={'typcn:messages'} width={24} height={24} />
           </IconButton>
+          <IconButton onClick={() => handleCopyValue(_id)}>
+            <Iconify icon={'fluent-emoji-high-contrast:id-button'} width={24} height={24} />
+          </IconButton>
+          {toAction && (
+            <IconButton>
+              <Iconify icon={'fluent:important-12-filled'} width={24} height={24} />
+            </IconButton>
+          )}
         </TableCell>
 
         <TableCell>
@@ -147,9 +155,11 @@ ${mobile}`;
       {showImages && (
         <TableRow>
           <TableCell />
+          <TableCell>
+            <img src={origin} srcSet={origin} alt={origin} loading="lazy" style={{ minWidth: '150px' }} />
+          </TableCell>
           <TableCell />
-          <TableCell />
-          {images.slice(0, 3).map((item, index) => (
+          {images.slice(1, 4).map((item, index) => (
             <TableCell key={index}>
               {item === '' ? (
                 <p>no image</p>

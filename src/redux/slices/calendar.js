@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 // DB Firesbase database
-import { collection, getDocs, addDoc, doc, updateDoc, deleteDoc } from 'firebase/firestore';
+import { collection, getDocs, addDoc, doc, updateDoc, deleteDoc, getDoc } from 'firebase/firestore';
 // Firebase
 import { DB } from '../../contexts/FirebaseContext';
 //
@@ -123,7 +123,6 @@ export function createEvent(newEvent) {
     dispatch(slice.actions.startLoading());
     try {
       const addEventRef = await addDoc(collection(DB, 'events'), newEvent);
-      console.log(addEventRef.id);
       dispatch(slice.actions.createEventSuccess({ id: addEventRef.id, ...newEvent }));
     } catch (error) {
       dispatch(slice.actions.hasError(error));
@@ -137,9 +136,10 @@ export function updateEvent(eventId, updateEvent) {
   return async () => {
     dispatch(slice.actions.startLoading());
     try {
-      const newUpdate = await doc(DB, 'events', eventId);
-      await updateDoc(newUpdate, updateEvent);
-      dispatch(slice.actions.updateEventSuccess(updateEvent));
+      const newUpdateRef = await doc(DB, 'events', eventId);
+      await updateDoc(newUpdateRef, updateEvent);
+      const updatedEvent = await getDoc(newUpdateRef);
+      dispatch(slice.actions.updateEventSuccess({ ...updatedEvent.data(), id: eventId }));
     } catch (error) {
       dispatch(slice.actions.hasError(error));
     }

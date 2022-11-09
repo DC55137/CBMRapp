@@ -35,7 +35,15 @@ const COLOR_OPTIONS = [
 const getInitialValues = (event, range) => {
   const _event = {
     title: '',
-    description: '',
+    description: `Still waiting on:
+    => Update Invoice Accordingly
+    => Colours
+    => Deposit Payment
+    => Confirmation of start date
+    => Neighbour Notification (Asbestos)
+    => From 65 (Asbestos)
+    => SWMS and Docs into folder(Asbestos)
+    `,
     textColor: '#1890FF',
     allDay: false,
     start: range ? new Date(range.start) : new Date(),
@@ -44,7 +52,27 @@ const getInitialValues = (event, range) => {
   };
 
   if (event || range) {
-    return merge({}, _event, event);
+    let updatingEvent = {};
+    if (range) {
+      updatingEvent = {
+        title: event.title,
+        description: event.description,
+        textColor: event.textColor,
+        allDay: event.allDay,
+        jobId: event.jobId,
+      };
+    } else {
+      updatingEvent = {
+        title: event.title,
+        description: event.description,
+        textColor: event.textColor,
+        allDay: event.allDay,
+        jobId: event.jobId,
+        start: new Date(event.start),
+        end: new Date(event.end),
+      };
+    }
+    return merge({}, _event, updatingEvent);
   }
 
   return _event;
@@ -95,7 +123,7 @@ export default function CalendarForm({ event, range, onCancel }) {
         end: data.end.toISOString(),
         jobId: data.jobId,
       };
-      console.log(newEvent);
+
       if (event.id) {
         dispatch(updateEvent(event.id, newEvent));
         enqueueSnackbar('Update success!');
@@ -128,14 +156,16 @@ export default function CalendarForm({ event, range, onCancel }) {
   return (
     <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
       <Stack spacing={3} sx={{ p: 3 }}>
-        <Button
-          variant="contained"
-          size="large"
-          component={RouterLink}
-          to={PATH_DASHBOARD.job.view(getValues('jobId'))}
-        >
-          See job
-        </Button>
+        {getValues('jobId') && (
+          <Button
+            variant="contained"
+            size="large"
+            component={RouterLink}
+            to={PATH_DASHBOARD.job.view(getValues('jobId'))}
+          >
+            See job
+          </Button>
+        )}
         <RHFTextField name="title" label="Title" />
 
         <RHFTextField name="description" label="Description" multiline rows={4} />

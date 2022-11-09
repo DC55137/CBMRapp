@@ -154,6 +154,24 @@ export default function InvoiceList() {
     }
   };
 
+  const handleActionRows = (toAction) => {
+    // prettier-ignore
+    if (window.confirm(`are you sure you want to move to Action?`)) {// eslint-disable-line no-alert
+      const sendRows = jobs.filter((row) => selected.includes(row._id));
+      setSelected([]);
+      if (page * rowsPerPage >= dataFiltered.length) {
+        setPage(0);
+      }
+      sendRows.forEach((row) => {
+        row.toAction = toAction;
+        updateJobWithObId({ toAction }, row._id).then((res) => {
+          console.log(res);
+        });
+        console.log(row._id);
+      });
+    }
+  };
+
   const handleEditRow = (id) => {
     navigate(PATH_DASHBOARD.job.edit(id));
   };
@@ -174,9 +192,10 @@ export default function InvoiceList() {
   const denseHeight = dense ? 56 : 76;
 
   const getLengthByStatus = (status) => jobs.filter((item) => item.stage === status).length;
+  const getLengthByAction = () => jobs.filter((item) => item.toAction === true).length;
 
   const TABS = [
-    { value: 'toAction', label: 'Action', color: 'error', count: getLengthByStatus('toAction') },
+    { value: 'toAction', label: 'Action', color: 'error', count: getLengthByAction() },
     { value: 'lead', label: 'Lead', color: 'warning', count: getLengthByStatus('lead') },
     { value: 'inspect', label: 'Inspect', color: 'warning', count: getLengthByStatus('inspect') },
     { value: 'schedule', label: 'Schedule', color: 'info', count: getLengthByStatus('schedule') },
@@ -257,15 +276,6 @@ export default function InvoiceList() {
                               <>
                                 <MenuItem
                                   onClick={() => {
-                                    handleUpdateRow('toAction');
-                                    handleCloseMenu();
-                                  }}
-                                >
-                                  <Iconify icon={'ic:round-send'} />
-                                  toAction
-                                </MenuItem>
-                                <MenuItem
-                                  onClick={() => {
                                     handleUpdateRow('lead');
                                     handleCloseMenu();
                                   }}
@@ -323,9 +333,14 @@ export default function InvoiceList() {
                           />
                         </Tooltip>
 
-                        <Tooltip title="Download">
-                          <IconButton color="primary">
-                            <Iconify icon={'eva:download-outline'} />
+                        <Tooltip title="Action">
+                          <IconButton color="primary" onClick={() => handleActionRows(true)}>
+                            <Iconify icon={'fluent:important-12-filled'} />
+                          </IconButton>
+                        </Tooltip>
+                        <Tooltip title="Action">
+                          <IconButton color="primary" onClick={() => handleActionRows(false)}>
+                            <Iconify icon={'icon-park-twotone:good-two'} />
                           </IconButton>
                         </Tooltip>
 
@@ -423,11 +438,12 @@ function applySortFilter({ jobs, comparator, filterName, filterStage }) {
         item.mobile.replace(/\s/g, '').toLowerCase().indexOf(filterName.replace(/\s/g, '').toLowerCase()) !== -1 ||
         item.address.toLowerCase().indexOf(filterName.toLowerCase()) !== -1
     );
-    filterStage = 'all';
-  }
-
-  if (filterStage !== 'all') {
-    jobs = jobs.filter((item) => item.stage === filterStage);
+  } else if (filterStage !== 'all') {
+    if (filterStage === 'toAction') {
+      jobs = jobs.filter((item) => item.toAction === true);
+    } else {
+      jobs = jobs.filter((item) => item.stage === filterStage);
+    }
   }
 
   return jobs;

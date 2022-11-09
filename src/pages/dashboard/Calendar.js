@@ -55,7 +55,6 @@ export default function Calendar() {
     dispatch(getEvents());
   }, [dispatch]);
 
-  console.log(events);
   useEffect(() => {
     const calendarEl = calendarRef.current;
     if (calendarEl) {
@@ -131,11 +130,11 @@ export default function Calendar() {
 
   const handleDropEvent = async ({ event }) => {
     try {
+      console.log(event);
       dispatch(
         updateEvent(event.id, {
-          allDay: event.allDay,
-          start: event.start,
-          end: event.end,
+          start: event.start.toISOString(),
+          end: event.end.toISOString(),
         })
       );
     } catch (error) {

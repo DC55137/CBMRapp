@@ -22,6 +22,8 @@ JobNewForm.propTypes = {};
 export default function JobNewForm() {
   const [highestJobNumber, setHighestJobNumber] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
+  const navigate = useNavigate();
+  const { enqueueSnackbar } = useSnackbar();
 
   useEffect(() => {
     async function getNumber() {
@@ -45,9 +47,6 @@ export default function JobNewForm() {
         setTimeout(setIsLoading(false), 0);
       });
   }, []);
-
-  const navigate = useNavigate();
-  const { enqueueSnackbar } = useSnackbar();
 
   const stages = ['toAction', 'lead', 'inspect', 'schedule', 'commence', 'completed', 'followup', 'missed'];
 
